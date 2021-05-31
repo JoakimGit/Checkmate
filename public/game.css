@@ -1,0 +1,12 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    /* display: grid;
+    place-items: center; */
+}
+
+#chessBoard {
+    width: 600px;
+}

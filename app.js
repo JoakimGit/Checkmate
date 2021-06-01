@@ -12,13 +12,12 @@ io.on('connection', (socket) => {
     console.log("New connection");
 
     socket.on('move', (move) => {
-        console.log("Received move from client:", move);
         socket.broadcast.emit("move", move)
     });
 })
 
 app.get('/play', (req, res) => {
-    res.sendFile(__dirname + '/public/game.html');
+    res.sendFile(__dirname + '/views/game.html');
 });
 
 server.listen(8080, (err) => {

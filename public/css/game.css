@@ -1,13 +1,8 @@
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow-y: auto;
-    /* display: grid;
-    place-items: center; */
-    
+#playerPool {
+    align-self: center;
 }
 
-#chessBoard {
-    width: 600px;
+#playerPool h2 {    
+    position: fixed;
+    top: 3em;
 }

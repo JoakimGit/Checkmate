@@ -1,0 +1,13 @@
+.chessRules {
+    padding: 2em;
+    margin: 2em;
+    line-height: 1.5em;
+}
+
+.chessRules h2 {
+    line-height: 3em;
+}
+
+.chessRules img {
+    padding: 0.5em 0 1em 0;
+}

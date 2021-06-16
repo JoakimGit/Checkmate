@@ -1,0 +1,23 @@
+GET http://localhost:8080/users
+
+###
+
+POST http://localhost:8080/register
+Content-Type: application/json
+
+{
+    "username": "Danny", 
+    "email": "grgdrdg@hitdh.com",
+    "password": "hess",
+    "confirmPassword": "hess"
+}
+
+###
+
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+    "username": "Joakim", 
+    "password": "secret"
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/gameboard/chessboard-1.0.0.min.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/play.css">
+    <script src="https://kit.fontawesome.com/657711dee1.js" crossorigin="anonymous"></script>
+    <title>Play</title>
+</head>
+<body>
+    <div class="main-content">
+
+        <div class="sidebar">
+            <header>Checkmate</header>
+            <ul>
+                <li><a href="/"><i class="fas fa-home"></i>Home</a></li>
+                <li><a href="/play"><i class="fas fa-chess"></i>Play</a></li>
+                <li><a href="/openings"><i class="fas fa-graduation-cap"></i>Openings</a></li>
+                <li><a href=""><i class="fas fa-layer-group"></i>My games</a></li>
+                <li><a href="/rules"><i class="fas fa-info-circle"></i>Chess rules</a></li>
+                <li><a href="/login"><i class="fas fa-sign-in-alt"></i>Log In</a></li>
+                <li><a href=""><i class="fas fa-sign-out-alt"></i>Log Out</a></li>
+            </ul>
+        </div>
+
+        <div id="chessBoard"></div>
+
+        <div class="boardOptions">
+            <button id="flip"><i class="fas fa-exchange-alt"></i>Flip board</button><br>
+            <button id="reset"><i class="fas fa-undo"></i>Reset board</button>
+        </div>
+
+        <div class="playOptions">
+            <h2>Select mode</h2>
+            <a href="/play-online"><button><i class="fas fa-globe-americas fa-lg"></i>Play online</button></a>
+            <button id="computerGame"><i class="fa fa-robot"></i>Play computer</button>
+            <button id="practiceGame"><i class="fas fa-dumbbell"></i>Practice</button>
+        </div>
+    </div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/gamelogic/chess.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/gameboard/chessboard-1.0.0.min.js"></script>
+    <script src="/js/chess-logic.js"></script>
+    
+</body>
+</html>

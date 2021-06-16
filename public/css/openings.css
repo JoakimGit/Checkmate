@@ -1,0 +1,21 @@
+.opening-col img {
+    height: 175px;
+    width: 175px;
+}
+
+.opening-col img:hover {
+    height: 175px;
+    width: 175px;
+    cursor: pointer;
+}
+
+.opening-col div {
+    margin: 0.5em;
+    padding: 0.5em;
+    line-height: 2.5em;
+}
+
+.opening-col {
+    margin: 1em;
+    padding: 1em;
+}

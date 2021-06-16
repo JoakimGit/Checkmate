@@ -1,0 +1,22 @@
+.playOptions {
+    padding: 1em;   
+    width: 50%;
+    height: auto;
+    align-self: center;    
+    background-color: #221712d7;
+    border-radius: 3px;
+    line-height: 3em;
+}
+
+.playOptions h2 {    
+    color: white;
+    margin: 5px 10px;
+}
+
+.boardOptions button {
+    background-color: #66260b;
+}
+
+.boardOptions {
+    align-self: center;
+}

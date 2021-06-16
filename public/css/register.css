@@ -1,0 +1,45 @@
+body {
+    font-family: 'Roboto', sans-serif;  
+}
+
+#cover {
+    background: #222 url("../img/chess-splash.jpg") center center no-repeat;
+    background-size: cover;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+#cover-caption {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* only used for background overlay not needed for centering */
+form:before {
+    content: '';
+    height: 100%;
+    left: 30%;
+    position: absolute;
+    top: 0;
+    width: 40%;
+    background-color: rgba(0,0,0,0.3);
+    z-index: -1;
+    border-radius: 10px;
+}
+
+input[type="button"],
+input[type="button"]:active,
+input[type="button"]:hover {
+    background-color: rgb(211, 113, 2);
+    border: none;
+}
+
+.form-error {
+    margin-top: 5px;
+    background-color: rgb(255, 0, 0, .7);
+    border-radius: 3px;
+}

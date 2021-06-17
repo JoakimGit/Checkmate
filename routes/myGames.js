@@ -3,8 +3,9 @@ const router = express.Router();
 const gameDAO = require("../db/gameDAO");
 
 router.get("/mygames", (req, res) => {
-    console.log(req.session.username);
-    res.redirect("/mygames/" + req.session.username)
+    if (req.session.username) {
+        res.redirect("/mygames/" + req.session.username);
+    }
 });
 
 router.get("/mygames/:username", (req, res) => {

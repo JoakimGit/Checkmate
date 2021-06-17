@@ -6,7 +6,7 @@ const dbUsername = process.env.DB_USERNAME;
 const dbPassword = process.env.DB_PASSWORD;
 
 const uri = `mongodb+srv://${dbUsername}:${dbPassword}@cluster0.knzcp.mongodb.net/${dbName}?retryWrites=true&w=majority`
- */
+
 let con;
 
 async function connect() {

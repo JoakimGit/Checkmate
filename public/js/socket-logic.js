@@ -28,7 +28,6 @@ socket.on("begin-game", () => {
 function checkGameOver() {
 
     if (game.in_checkmate()) {
-        console.log("There was a checkmate");
         const gameResult = {
             result: "Checkmate",
             loser: game.turn(),
@@ -38,7 +37,6 @@ function checkGameOver() {
         socket.emit("game-over", gameResult);
     }
     else if (game.in_stalemate()) {
-        console.log("Game ended in a draw by stalemate");
         const gameResult = {
             result: "Stalemate",
             loser: 'draw',
@@ -48,7 +46,6 @@ function checkGameOver() {
         socket.emit("game-over", gameResult);
     }
     else if (game.in_threefold_repetition()) {
-        console.log("Game ended by repetition");
         const gameResult = {
             result: "Repetition",
             loser: 'draw',
@@ -58,7 +55,6 @@ function checkGameOver() {
         socket.emit("game-over", gameResult);
     }
     else if (game.insufficient_material()) {
-        console.log("Game ended by insufficient material");
         const gameResult = {
             result: "Insufficient material",
             loser: 'draw',

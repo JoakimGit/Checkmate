@@ -16,8 +16,7 @@ function initBoard() {
 function moveThroughOpening(opening) {
     for (let i = 1; i < opening.length+1; i++) {
         setTimeout(() => {
-            game.move(opening[i-1])
-            /* board.position(opening[i-1]); */      
+            game.move(opening[i-1])    
             board.position(game.fen());
         }, i * 1000);
     }

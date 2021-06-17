@@ -29,7 +29,7 @@ module.exports = session({
     resave: false,
     name: "sessionID",
     cookie: {
-        secure: false,
+        secure: true,
         httpOnly: true,
         maxAge: 1000 * 60 * 60
     }

@@ -6,7 +6,7 @@ const dbUsername = process.env.DB_USERNAME;
 const dbPassword = process.env.DB_PASSWORD;
 
 const uri = `mongodb+srv://${dbUsername}:${dbPassword}@cluster0.knzcp.mongodb.net/${dbName}?retryWrites=true&w=majority`
-
+ */
 let con;
 
 async function connect() {
@@ -20,7 +20,6 @@ async function getAllUsers() {
     try {
         const client = await connect();  
         const users = await client.db(dbName).collection("users").find().toArray();
-        /* console.log("Users:", users);  */
         return users;   
     } catch (error) {
           console.error(error);

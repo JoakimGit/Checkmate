@@ -21,7 +21,6 @@ async function getGamesByUsername(username) {
         const client = await connect();  
         const userGames = await client.db(dbName).collection("games")
         .find({ $or: [{"player1" : username}, {"player2" : username}]}).toArray();
-        /* console.log("Users:", users);  */
         return userGames;   
     } catch (error) {
           console.error(error);

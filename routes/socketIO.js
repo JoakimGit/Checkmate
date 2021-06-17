@@ -9,15 +9,16 @@ let playerRooms = [];
 
 module.exports = io.of('/play-online').on('connection', async (socket) => {
     session(socket.handshake, {}, (err) => {        
-        if (err) { /* handle error */ }
+        if (err) {
+            console.error(err)
+        }
         const username = socket.handshake.session.username;
         if (username) {
             playerPool.push({ socket: socket, username: username });
             const usernames = playerPool.map((user) => { return user.username });
             io.of('/play-online').emit("new-player", usernames);            
         }        
-    });
-    console.log("New connection on:", socket.id); 
+    }); 
     
     socket.on('move', (move) => {
         const room = playerRooms.find(roomObj => roomObj.roomName.includes(socket.id));
@@ -33,15 +34,12 @@ module.exports = io.of('/play-online').on('connection', async (socket) => {
         socket.join(roomName);
         targetSocket.join(roomName);
 
-
         playerRooms.push({
             roomName: roomName,
             player1: socket.handshake.session.username,
             player2: targetPlayer.username 
         });
 
-        console.log(socket.rooms);
-        console.log(targetSocket.rooms);
         io.of("/play-online").to(roomName).emit("begin-game");
     });
 
@@ -49,7 +47,6 @@ module.exports = io.of('/play-online').on('connection', async (socket) => {
         const room = playerRooms.find(roomObj => roomObj.roomName.includes(socket.id));
         const game = {...gameResult, player1: room.player1, player2: room.player2};
         gameDAO.saveGame(game);
-    
     });
 
     socket.on("disconnect", () => {        

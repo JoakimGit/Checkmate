@@ -1,0 +1,16 @@
+.welcome {
+    /* margin: 2em;
+    padding: 2em; */
+    padding: 0 14em;
+    line-height: 2em;
+    align-self: center;
+    justify-self: center;
+}
+
+.welcome h1 {
+    line-height: 3em;
+}
+
+.welcome span {
+    color: brown;
+}

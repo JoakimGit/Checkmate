@@ -2,14 +2,18 @@ GET http://localhost:8080/users
 
 ###
 
+GET http://localhost:8080/mygames/fetch/Joakim
+
+###
+
 POST http://localhost:8080/register
 Content-Type: application/json
 
 {
-    "username": "Danny", 
+    "username": "Hikaru", 
     "email": "grgdrdg@hitdh.com",
-    "password": "hess",
-    "confirmPassword": "hess"
+    "password": "idc",
+    "confirmPassword": "idc"
 }
 
 ###

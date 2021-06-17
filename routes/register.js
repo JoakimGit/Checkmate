@@ -9,23 +9,29 @@ router.get("/register", (req, res) => {
 
 router.post("/register", async (req, res) => {
     const { username, email, password, confirmPassword } = req.body;
-    // Check if password match
 
-    // Check if user already exists
-    if (userDAO.findUsers().find(user => user.username === username)) {
-        res.redirect("/register");
+    if (password !== confirmPassword) {
+        return res.redirect("/register");
     }
+    try {
+        const users = await userDAO.getAllUsers();
+        if (users.find(user => user.username === username)) {
+            return res.redirect("/register");
+        }
+        const hashedPassword = await bcrypt.hash(password, 10)
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10)
-    // Persist user
-    user = {
-        username,
-        email,
-        password: hashedPassword
-    };
-    userDAO.createUser(user);
-    res.redirect("/login");
+        user = {
+            username,
+            email,
+            password: hashedPassword
+        };
+
+        const newUser = await userDAO.createUser(user);
+        res.redirect("/login");
+
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 module.exports = {router};

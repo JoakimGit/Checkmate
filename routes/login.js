@@ -10,18 +10,28 @@ router.get("/login", (req, res) => {
 router.post("/login", async (req, res) => {
     try {
         const { username, password } = req.body;
-        // Does user exist and password match?
-        const user = userDAO.findUsers().find(user => user.username === username);
-        const match = await bcrypt.compare(password, user.password);
-        if (match) {
-            req.session.username = user.username
-            res.redirect("/");
+        const users = await userDAO.getAllUsers();
+        const user = users.find(user => user.username === username);
+        if (user) {
+            const match = await bcrypt.compare(password, user.password);
+            if (match) {
+                req.session.username = user.username;
+                res.redirect("/");
+            } else {
+                res.redirect("/login");
+            }
         } else {
-            res.sendFile("/views/login-failed.html", { root: "./" });
+            res.redirect("/login");
         }
+        
     } catch (error) {
         console.log(error);
     }    
+});
+
+router.get("/logout", (req, res) => {
+    req.session.destroy();
+    res.redirect("/");
 });
 
 module.exports = {router};

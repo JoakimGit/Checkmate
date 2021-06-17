@@ -6,16 +6,23 @@ async function getUserByName(username) {
 
 jQuery(function() {
     $("#signup").on("click", function() {        
-        validateRequiredInput();        
-        comparePasswords();
-        checkIfUserExists();
-        $("#register-form").trigger("submit");
+        const reqError = validateRequiredInput();        
+        const passError = comparePasswords();
+        const usernameError = checkIfUserExists();
+        if (reqError && passError && usernameError ) {
+            console.log("Submitting form");
+            $("#register-form").trigger("submit");
+        }
     });
 });
 
 function validateRequiredInput() {
     const inputFields = ["username", "email", "password", "confirmPassword"];
-    inputFields.forEach(field => checkRequiredFieldPresent(field));
+    let success = true;
+    inputFields.forEach(field => {
+        const result = checkRequiredFieldPresent(field)
+        if (!result) success = false;
+    });
 }
 
 
@@ -26,6 +33,7 @@ function checkRequiredFieldPresent(field) {
     if (!fieldValue) {
         $(`#${field}-error`).text(`${capitalizeFirstLetter(field)} required`);
         $(`#${field}-error`).show();
+        return false;
     }
 }
 
@@ -43,6 +51,7 @@ function comparePasswords() {
             $("#confirmPassword-error").append("<br>");
         }  
         $("#confirmPassword-error").append("Passwords don't match");
+        return false;
     }
 }
 
@@ -52,10 +61,11 @@ async function checkIfUserExists() {
         const userFromServer = await getUserByName(username);
 
         if (jQuery.isEmptyObject(userFromServer)) {
-            return false
+            return true;
         } else {
             $("#username-error").text("This username is already taken");
             $("#username-error").show();
+            return false;
         }
     }    
 }

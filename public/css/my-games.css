@@ -1,0 +1,15 @@
+.myGames {
+    padding: 2em;
+    margin: 2em;
+    align-self: center;
+    justify-self: center;
+}
+
+.myGames td {
+    padding: 1em 2.5em;
+    margin: 1em 2.5em 
+}
+
+#gamesTable {
+    width: 600px;
+}

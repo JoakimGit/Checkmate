@@ -16,26 +16,27 @@ async function connect() {
     return con;
 }
 
-async function getAllUsers() {
+async function getGamesByUsername(username) {
     try {
         const client = await connect();  
-        const users = await client.db(dbName).collection("users").find().toArray();
+        const userGames = await client.db(dbName).collection("games")
+        .find({ $or: [{"player1" : username}, {"player2" : username}]}).toArray();
         /* console.log("Users:", users);  */
-        return users;   
+        return userGames;   
     } catch (error) {
           console.error(error);
     }
 }
 
-async function createUser(newUser) {
+async function saveGame(game) {
     try {
         const client = await connect();  
-        const createdUser = await client.db(dbName).collection("users").insertOne(newUser);
-        console.log("New user created with id:", createdUser.insertedId); 
-        return createdUser;
+        const savedGame = await client.db(dbName).collection("games").insertOne(game);
+        console.log("New game saved with id:", savedGame.insertedId); 
+        return savedGame;
     } catch (error) {
           console.error(error);
     } 
 }
 
-module.exports = { createUser, getAllUsers };
+module.exports = { saveGame, getGamesByUsername };

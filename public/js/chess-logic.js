@@ -39,9 +39,11 @@ function onDrop (source, target) {
       promotion: 'q'
     });
     if (move === null) return 'snapback';  
-    console.log(game.fen());
+
     removeHighlights();
     addHighlights(source, target);
+
+    checkGameOver();
   
     if (isComputerGame) window.setTimeout(makeRandomMove, 500);
     if (window.location.href.includes("/play-online")) socket.emit("move", move);

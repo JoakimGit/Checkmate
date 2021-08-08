@@ -1,5 +1,5 @@
 async function getGamesByName(username) {
-    let response = await fetch(`/mygames/fetch/${username}`);
+    let response = await fetch(`/games/fetch/${username}`);
     let games = await response.json();
     return games;
 }
@@ -24,7 +24,7 @@ function createGamesTable(games) {
         player1TD.innerText = game.player1;
         player2TD.innerText = game.player2;
         resultTD.innerText = game.result;
-        game.loser === 'b' ? winnerTD.innerText = 'White' : winnerTD.innerText = 'Black';
+        winnerTD.innerText = game.winner;
 
         tableRow.appendChild(player1TD);
         tableRow.appendChild(player2TD);

@@ -29,6 +29,10 @@ router.post("/login", async (req, res) => {
     }    
 });
 
+router.get("/login/logged-in-user", (req, res) => {    
+    res.send({ username: req.session.username });
+});
+
 router.get("/logout", (req, res) => {
     req.session.destroy();
     res.redirect("/");

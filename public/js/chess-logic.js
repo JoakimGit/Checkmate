@@ -18,8 +18,11 @@ function onDragStart (source, piece, position, orientation) {
     if (isComputerGame) {
       if (orientation === 'white' && piece.search(/^b/) !== -1) return false;
       if (orientation === 'black' && piece.search(/^w/) !== -1) return false;
-    } 
-  
+    }
+
+    if (player === white && piece.search(/^b/) !== -1) return false;
+    if (player === black && piece.search(/^w/) !== -1) return false;
+
     const moves = game.moves({
       square: source,
       verbose: true
@@ -42,9 +45,9 @@ function onDrop (source, target) {
 
     removeHighlights();
     addHighlights(source, target);
-
-    checkGameOver();
-  
+    if (window.location.href.includes("/play-online")) {
+      checkGameOver();
+    }
     if (isComputerGame) window.setTimeout(makeRandomMove, 500);
     if (window.location.href.includes("/play-online")) socket.emit("move", move);
 }

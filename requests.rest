@@ -1,0 +1,13 @@
+GET http://localhost:8080/users
+
+###
+
+POST http://localhost:8080/register
+Content-Type: application/json
+
+{
+    "username": "Joakim", 
+    "email": "jokke34@gmail.com",
+    "password": "test123",
+    "confirmPassword": "test123"
+}

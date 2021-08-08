@@ -20,7 +20,7 @@ app.use(express.static('public'));
 app.use(express.static('views'));
 app.use("/gameboard", express.static(__dirname + "/node_modules/@chrisoakman/chessboardjs/dist"));
 app.use("/gamelogic", express.static(__dirname + "/node_modules/chess.js"));
-app.set("trust proxy", 1);
+/* app.set("trust proxy", 1); */
 
 app.use(session);
 app.use(loginRouter.router);

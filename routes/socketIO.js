@@ -40,7 +40,12 @@ module.exports = io.of('/play-online').on('connection', async (socket) => {
             player2: targetPlayer.username 
         });
 
-        io.of("/play-online").to(roomName).emit("begin-game");
+        const oneOrZero = Math.round(Math.random());
+
+        const white = oneOrZero === 0 ? socket.handshake.session.username : targetPlayer.username;
+        const black = oneOrZero === 1 ? socket.handshake.session.username : targetPlayer.username;
+
+        io.of("/play-online").to(roomName).emit("begin-game", { white, black });
     });
 
     socket.on("game-over", (gameResult) => {

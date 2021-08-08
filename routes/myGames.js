@@ -2,18 +2,19 @@ const express = require("express");
 const router = express.Router();
 const gameDAO = require("../db/gameDAO");
 
-router.get("/mygames", (req, res) => {
+router.get("/games", (req, res) => {
     if (req.session.username) {
-        res.redirect("/mygames/" + req.session.username);
+        res.redirect("/games/" + req.session.username);
     }
 });
 
-router.get("/mygames/:username", (req, res) => {
+router.get("/games/:username", (req, res) => {
     res.sendFile('/views/my-games.html', { root: "./" });
 });
 
-router.get("/mygames/fetch/:username", async (req, res) => {
+router.get("/games/fetch/:username", async (req, res) => {
     const games = await gameDAO.getGamesByUsername(req.params.username);
+    console.log(games);
     if (games) {
         res.send(games);
     } else {

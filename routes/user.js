@@ -10,4 +10,9 @@ router.get("/users/:username", async (req, res) => {
     } else res.send({ });   
 });
 
+router.get("/users", async (req, res) => {
+    const users = await userDAO.getAllUsers();
+    res.send(users);
+});
+
 module.exports = {router};

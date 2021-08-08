@@ -7,7 +7,7 @@ router.get('/play', (req, res) => {
 });
 
 router.get('/play-online', authenticate, (req, res) => {
-    res.sendFile('/views/game.html', { root: "./" });
+    res.sendFile('/views/play-online.html', { root: "./" });
 });
 
 module.exports = {router};

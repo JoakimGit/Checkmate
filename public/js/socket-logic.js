@@ -1,4 +1,6 @@
 let hasPlayerPool = false;
+let white;
+let black;
 
 const socket = io.connect("/play-online");
 
@@ -20,49 +22,39 @@ socket.on("player-left", (username) => {
     document.getElementById(username).remove();
 });
 
-socket.on("begin-game", () => {
+socket.on("begin-game", (players) => {
+    white = players.white;
+    black = players.black;
+    console.log("White is:", white);
+    console.log("Black is:", black);
     $("#playerPool").hide();
     board = Chessboard('chessBoard', config);
 });
 
 function checkGameOver() {
-
-    if (game.in_checkmate()) {
+    if (game.game_over()) {
         const gameResult = {
-            result: "Checkmate",
-            loser: game.turn(),
+            white: white,
+            black: black,
+            result: "",
             history: game.history(),
             fen: game.fen()
         }
-        socket.emit("game-over", gameResult);
-    }
-    else if (game.in_stalemate()) {
-        const gameResult = {
-            result: "Stalemate",
-            loser: 'draw',
-            history: game.history(),
-            fen: game.fen()
+        if (game.in_checkmate()) {
+            gameResult.result = "Checkmate";
+            gameResult.winner = game.turn() === 'w' ? "White" : "Black"
+        }
+        else if (game.in_stalemate()) {
+            gameResult.result = "Draw by stalemate";
+        }
+        else if (game.in_threefold_repetition()) {
+            gameResult.result = "Draw by repetition";
+        }
+        else if (game.insufficient_material()) {
+            gameResult.result = "Draw by insufficient material";
         }
         socket.emit("game-over", gameResult);
-    }
-    else if (game.in_threefold_repetition()) {
-        const gameResult = {
-            result: "Repetition",
-            loser: 'draw',
-            history: game.history(),
-            fen: game.fen()
-        }
-        socket.emit("game-over", gameResult);
-    }
-    else if (game.insufficient_material()) {
-        const gameResult = {
-            result: "Insufficient material",
-            loser: 'draw',
-            history: game.history(),
-            fen: game.fen()
-        }
-        socket.emit("game-over", gameResult);
-    }
+    }    
 }
 
 function createNewPlayer(player) {

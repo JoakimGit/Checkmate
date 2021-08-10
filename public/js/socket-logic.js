@@ -38,7 +38,8 @@ function checkGameOver() {
             black: black,
             result: "",
             history: game.history(),
-            fen: game.fen()
+            fen: game.fen(),
+            date: new Date()
         }
         if (game.in_checkmate()) {
             gameResult.result = "Checkmate";

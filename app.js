@@ -11,7 +11,7 @@ const registerRouter = require("./routes/register");
 const userRouter = require("./routes/user");
 const openingsRouter = require("./routes/openings");
 const rulesRouter = require("./routes/rules");
-const myGamesRouter = require("./routes/myGames");
+const myGamesRouter = require("./routes/my-games");
 const socketIO = require("./routes/socketIO");
 
 app.use(express.json());

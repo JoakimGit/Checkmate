@@ -1,3 +1,9 @@
+.main-content {
+    display: grid;
+    grid-template-columns: minmax(180px, 13%) auto;
+    background-color: var(--main-bg-color);
+}
+
 .chessRules {
     padding: 2em;
     margin: 2em;

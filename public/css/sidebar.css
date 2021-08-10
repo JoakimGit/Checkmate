@@ -14,11 +14,11 @@ body {
     padding: 0;
 }
 
-.main-content {
+/* .main-content {
     display: grid;
     grid-template-columns: minmax(180px, 13%) auto auto auto;
     background-color: var(--main-bg-color);
-}
+} */
 
 .sidebar {
     background-color: var(--sidebar-bg-color);

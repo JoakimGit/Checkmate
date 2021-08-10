@@ -1,15 +1,25 @@
+.main-content {
+    display: grid;
+    grid-template-columns: minmax(180px, 13%) auto;
+    background-color: var(--main-bg-color);
+}
+
 .myGames {
-    padding: 2em;
-    margin: 2em;
-    align-self: center;
     justify-self: center;
+    position: absolute;
+    top: 150px;
 }
 
-.myGames td {
-    padding: 1em 2.5em;
-    margin: 1em 2.5em 
+table {
+    width: 600px;    
+    border-collapse: collapse;
 }
 
-#gamesTable {
-    width: 600px;
+table, th, td {    
+    border: 1px solid black;
+    text-align: center;
+}
+
+td, th {
+    padding: 0.5em;
 }

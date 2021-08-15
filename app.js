@@ -14,6 +14,18 @@ app.use("/gameboard", express.static(__dirname + "/node_modules/@chrisoakman/che
 app.use("/gamelogic", express.static(__dirname + "/node_modules/chess.js"));
 /* app.set("trust proxy", 1); */
 
+/* 1. Time control
+3. Auth on all routes
+4. Remove login button from sidebar
+5. Hosting
+10. Finish view game page
+11. Go through moves on openings
+12. Remove getallusers and getuser routes
+13. Something should happen on game end
+16. Contact me page
+17. What happens on leaving during game?
+18. Play sound on game start */
+
 mongodb.connectToServer(function(err) {
     if (err) console.log(err);
     console.log("Connected to db");

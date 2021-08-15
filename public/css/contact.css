@@ -1,0 +1,36 @@
+.main-content {
+    display: grid;
+    grid-template-columns: minmax(180px, 13%) auto;
+    background-color: var(--main-bg-color);
+}
+
+h1 {
+    margin: 2em 1em 1em
+}
+
+.contact-form {
+    padding: 3em;
+}
+
+.form-group, .contact-btn {
+    margin: 1em 2em;
+}
+
+.form-control {
+    display: block;
+    width: 25%;
+    margin-top: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    border-color: rgb(35, 221, 159);
+    line-height: 1.5;
+    font-weight: 400;
+    border-radius: 5px;
+}
+
+.long-form {
+    width: 40%;
+}
+
+.contact-btn {
+    background-color: rgb(35, 221, 159);
+}

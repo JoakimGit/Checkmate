@@ -6,8 +6,7 @@
 
 .myGames {
     justify-self: center;
-    position: absolute;
-    top: 150px;
+    padding-top: 150px;
 }
 
 table {

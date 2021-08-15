@@ -8,8 +8,8 @@ router.get("/games/overview/:username", (req, res) => {
 });
 
 router.get("/games/:id", (req, res) => {
-    res.send({ game: "This is where you will see your game with id: " + req.params.id })
-})
+    res.sendFile('/views/game-details.html', { root: "./" });
+});
 
 router.get("/games/all/:username", async (req, res) => {
     const games = await gameDB.getGamesByUsername(req.params.username);
@@ -18,6 +18,11 @@ router.get("/games/all/:username", async (req, res) => {
     } else {
         res.send({ });
     }
+});
+
+router.get("/games/single/:id", async (req, res) => {
+    const game = await gameDB.getGameById(req.params.id);
+    res.send({ game });
 });
 
 module.exports = {router};

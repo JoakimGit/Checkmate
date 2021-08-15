@@ -25,3 +25,7 @@
     margin: 1em;
     padding: 1em;
 }
+
+.game-buttons {
+    align-self: center;
+}

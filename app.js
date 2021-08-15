@@ -14,18 +14,6 @@ app.use("/gameboard", express.static(__dirname + "/node_modules/@chrisoakman/che
 app.use("/gamelogic", express.static(__dirname + "/node_modules/chess.js"));
 /* app.set("trust proxy", 1); */
 
-/* 1. Time control
-3. Auth on all routes
-4. Remove login button from sidebar
-5. Hosting
-10. Finish view game page
-11. Go through moves on openings
-12. Remove getallusers and getuser routes
-13. Something should happen on game end
-16. Contact me page
-17. What happens on leaving during game?
-18. Play sound on game start */
-
 mongodb.connectToServer(function(err) {
     if (err) console.log(err);
     console.log("Connected to db");
@@ -39,6 +27,7 @@ mongodb.connectToServer(function(err) {
     const registerRouter = require("./routes/register");
     const userRouter = require("./routes/user");
     const rulesRouter = require("./routes/rules");
+    const contactRouter = require("./routes/contact");
     const openingsRouter = require("./routes/openings");
     const playRouter = require("./routes/play");
     const myGamesRouter = require("./routes/my-games");
@@ -52,11 +41,13 @@ mongodb.connectToServer(function(err) {
     app.use(registerRouter.router);
     app.use(userRouter.router);
     app.use(rulesRouter.router);
+    app.use(contactRouter.router);
     app.use(openingsRouter.router);
     app.use(playRouter.router);
     app.use(authenticate);
     app.use(myGamesRouter.router);
     app.use(pageNotFoundRouter.router);
+
 
     server.listen(8080, (err) => {
         if (err) {

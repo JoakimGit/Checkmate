@@ -49,6 +49,9 @@ function onDrop (source, target) {
 
 function onSnapEnd () {
     board.position(game.fen());
+    if (window.location.href.includes("/play-online")) {
+      checkGameOver();
+    }
 }
 
 // Jquery event handlers
@@ -75,7 +78,7 @@ jQuery(function() {
     $("#reset").on("click", function() {
       game.reset();
       board = Chessboard('chessBoard', config);
-    })
+    });
   
     $("#chessBoard").on("contextmenu", ".square-55d63", rightclickSquare);
   

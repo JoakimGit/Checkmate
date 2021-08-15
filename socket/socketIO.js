@@ -39,7 +39,8 @@ module.exports = io.of('/play-online').on('connection', async (socket) => {
         playerRooms.push({
             roomName: roomName,
             player1: srcUsername,
-            player2: targetUsername 
+            player2: targetUsername,
+            gameOver: false
         });
 
         playerPool = playerPool.filter((player) => ![socket, targetSocket].includes(player.socket));
@@ -47,23 +48,37 @@ module.exports = io.of('/play-online').on('connection', async (socket) => {
         const oneOrZero = Math.round(Math.random());
         const white = oneOrZero === 0 ? srcUsername : targetUsername;
         const black = oneOrZero === 1 ? srcUsername : targetUsername;
+        
+        sound.play(__dirname + "/.." + "/public/sfx/wav/Start.wav");
 
         io.of("/play-online").to(roomName).emit("begin-game", { white, black });
         io.of('/play-online').emit("player-left", [srcUsername, targetUsername]);
     });
 
     socket.on("game-over", (gameResult) => {
-        const room = playerRooms.find(roomObj => roomObj.roomName.includes(socket.id))
-        gameDB.saveGame(gameResult);        
+        const room = playerRooms.find(roomObj => roomObj.roomName.includes(socket.id)).gameOver = true;
+        gameDB.saveGame(gameResult);
+        console.log("Player rooms:", playerRooms);
+        /* playerRooms = playerRooms.filter((roomObj) => !roomObj.roomName.includes(socket.id)); */
         io.of("/play-online").to(room.roomName).emit("alert-gameover", gameResult);
     });
 
-    socket.on("disconnect", () => {        
+    socket.on("disconnect", () => {
+        console.log("Player leaving");
         const leavingPlayer = playerPool.find((player) => player.socket === socket);
-        playerPool = playerPool.filter((player) => { return player.socket !== socket });
-        playerRooms = playerRooms.filter((roomObj) => { return !roomObj.roomName.includes(socket.id) });
+        playerPool = playerPool.filter((player) => player.socket !== socket);
+
+        const leavingPlayerRoom = playerRooms.find((roomObj) => roomObj.roomName.includes(socket.id));
+        if (leavingPlayerRoom) {
+            if (!leavingPlayerRoom.gameOver) {
+                console.log("Room exists and game is not over. Other player wins by default.");
+                io.of("/play-online").to(leavingPlayerRoom.roomName).emit("default-win");
+            }
+        }
+        playerRooms = playerRooms.filter((roomObj) => !roomObj.roomName.includes(socket.id));
         if (leavingPlayer) {
             io.of('/play-online').emit("player-left", [leavingPlayer.username]);
         }
+        
     });
 });

@@ -9,7 +9,6 @@ socket.on("move", (move) => {
     highlightPrevMove(move.from, move.to);
     game.move(move);
     board.position(game.fen());
-    checkGameOver();
 });
 
 socket.on("new-player", (playerPool) => {
@@ -38,13 +37,31 @@ socket.on("begin-game", (players) => {
 });
 
 socket.on("alert-gameover", (gameResult) => {
+    console.log("Alert gameover called");
     let alertText;
     if (gameResult.winner !== "Neither") {
         alertText = `Game is over! ${gameResult.winner} won by ${gameResult.result}.`
     } else {
         alertText = `Game is over! Neither player won due to ${gameResult.result}.`
     }
-    alert(alertText);
+    setTimeout(() => {
+        alert(alertText);        
+    }, 500);
+});
+
+socket.on("default-win", () => {
+    console.log("Player winning by default:", player);
+    const gameResult = {
+        white: white,
+        black: black,
+        result: "Win by forfeit",
+        winner: player === white ? white : black,
+        history: game.history(),
+        fen: game.fen(),
+        date: new Date()
+    }
+    console.log(gameResult);
+    socket.emit("game-over", gameResult);
 });
 
 function checkGameOver() {

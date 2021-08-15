@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const mongodb = require('./mongodb');
 const db = mongodb.getDb();
 
@@ -19,4 +20,13 @@ function saveGame(game) {
     } 
 }
 
-module.exports = { saveGame, getGamesByUsername };
+function getGameById(id) {
+    try {
+        const game = db.collection("games").findOne({ "_id": ObjectId(id) });
+        return game;
+    } catch (error) {
+        console.error(error);
+    } 
+}
+
+module.exports = { saveGame, getGamesByUsername, getGameById };

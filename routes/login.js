@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const userDAO = require("../db/userDAO");
+const userDB = require("../db/user");
 
 router.get("/login", (req, res) => {
     res.sendFile("/views/login.html", { root: "./" });
@@ -10,18 +10,17 @@ router.get("/login", (req, res) => {
 router.post("/login", async (req, res) => {
     try {
         const { username, password } = req.body;
-        const users = await userDAO.getAllUsers();
-        const user = users.find(user => user.username === username);
+        const user = await userDB.getUser(username);
         if (user) {
             const match = await bcrypt.compare(password, user.password);
             if (match) {
                 req.session.username = user.username;
-                res.redirect("/");
+                return res.redirect("/");            
             } else {
-                res.redirect("/login");
+                return res.redirect("/login");            
             }
         } else {
-            res.redirect("/login");
+            return res.redirect("/login");
         }
         
     } catch (error) {
@@ -35,7 +34,7 @@ router.get("/login/logged-in-user", (req, res) => {
 
 router.get("/logout", (req, res) => {
     req.session.destroy();
-    res.redirect("/");
+    return res.redirect("/");
 });
 
 module.exports = {router};

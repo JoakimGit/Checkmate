@@ -3,16 +3,8 @@ const app = express();
 const server = require('http').createServer(app);
 const io = module.exports = require("socket.io")(server);
 const session = require("./middleware/session");
+const mongodb = require("./db/mongodb");
 const authenticate = require("./middleware/authenticate");
-
-const loginRouter = require("./routes/login");
-const playRouter = require("./routes/play");
-const registerRouter = require("./routes/register");
-const userRouter = require("./routes/user");
-const openingsRouter = require("./routes/openings");
-const rulesRouter = require("./routes/rules");
-const myGamesRouter = require("./routes/my-games");
-const socketIO = require("./routes/socketIO");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -22,23 +14,42 @@ app.use("/gameboard", express.static(__dirname + "/node_modules/@chrisoakman/che
 app.use("/gamelogic", express.static(__dirname + "/node_modules/chess.js"));
 /* app.set("trust proxy", 1); */
 
-app.use(session);
-app.use(loginRouter.router);
-app.use(registerRouter.router);
-app.use(userRouter.router);
-app.use(openingsRouter.router);
-app.use(rulesRouter.router);
-app.use(playRouter.router);
-app.use(authenticate);
-app.use(myGamesRouter.router);
+mongodb.connectToServer(function(err) {
+    if (err) console.log(err);
+    console.log("Connected to db");
 
-app.get("/", (req, res) => {
-    res.sendFile(__dirname + '/views/index.html');;
-});
+    const userdb = require("./db/user");
+    const gamedb = require("./db/game");
+    
+    const indexRouter = require("./routes/index");
+    const cookiePolicyRouter = require("./routes/policies");
+    const loginRouter = require("./routes/login");
+    const registerRouter = require("./routes/register");
+    const userRouter = require("./routes/user");
+    const rulesRouter = require("./routes/rules");
+    const openingsRouter = require("./routes/openings");
+    const playRouter = require("./routes/play");
+    const myGamesRouter = require("./routes/my-games");
+    const pageNotFoundRouter = require("./routes/not-found");
+    const socketIO = require("./socket/socketIO");
+    
+    app.use(session);
+    app.use(indexRouter.router);
+    app.use(cookiePolicyRouter.router);
+    app.use(loginRouter.router);
+    app.use(registerRouter.router);
+    app.use(userRouter.router);
+    app.use(rulesRouter.router);
+    app.use(openingsRouter.router);
+    app.use(playRouter.router);
+    app.use(authenticate);
+    app.use(myGamesRouter.router);
+    app.use(pageNotFoundRouter.router);
 
-server.listen(8080, (err) => {
-    if (err) {
-        console.log(err);
-    }
-    console.log("Listening to server at port", 8080);
+    server.listen(8080, (err) => {
+        if (err) {
+            console.log(err);
+        }
+        console.log("Listening to server at port", 8080);
+    });
 });

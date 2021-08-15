@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const userDAO = require("../db/userDAO");
+const userDB = require("../db/user");
 
 router.get("/register", (req, res) => {
     res.sendFile("/views/register.html", { root: "./" });
@@ -14,7 +14,7 @@ router.post("/register", async (req, res) => {
         return res.redirect("/register");
     }
     try {
-        const users = await userDAO.getAllUsers();
+        const users = await userDB.getAllUsers();
         if (users.find(user => user.username === username)) {
             return res.redirect("/register");
         }
@@ -26,8 +26,8 @@ router.post("/register", async (req, res) => {
             password: hashedPassword
         };
 
-        const newUser = await userDAO.createUser(user);
-        res.redirect("/login");
+        const newUser = await userDB.createUser(user);
+        return res.redirect("/login");
 
     } catch (error) {
         console.error(error);

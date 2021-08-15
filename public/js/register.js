@@ -1,15 +1,9 @@
-async function getUserByName(username) {
-    let response = await fetch(`/users/${username}`);
-    let user = await response.json();
-    return user;
-}
-
 jQuery(function() {
     $("#signup").on("click", function() {        
-        const reqError = validateRequiredInput();        
-        const passError = comparePasswords();
-        const usernameError = checkIfUserExists();
-        if (reqError && passError && usernameError ) {
+        const noRequiredError = validateRequiredInput();        
+        const noPassError = comparePasswords();
+        const noUsernameError = checkIfUserExists();
+        if (noRequiredError && noPassError && noUsernameError) {
             console.log("Submitting form");
             $("#register-form").trigger("submit");
         }
@@ -18,13 +12,13 @@ jQuery(function() {
 
 function validateRequiredInput() {
     const inputFields = ["username", "email", "password", "confirmPassword"];
-    let success = true;
+    let isSuccess = true;
     inputFields.forEach(field => {
-        const result = checkRequiredFieldPresent(field)
-        if (!result) success = false;
+        const result = checkRequiredFieldPresent(field);
+        if (!result) isSuccess = false;
     });
+    return isSuccess;
 }
-
 
 function checkRequiredFieldPresent(field) {    
     $(`#${field}-error`).text("");
@@ -35,6 +29,7 @@ function checkRequiredFieldPresent(field) {
         $(`#${field}-error`).show();
         return false;
     }
+    return true;
 }
 
 function comparePasswords() {
@@ -53,6 +48,13 @@ function comparePasswords() {
         $("#confirmPassword-error").append("Passwords don't match");
         return false;
     }
+    return true;
+}
+
+async function getUserByName(username) {
+    let response = await fetch(`/users/${username}`);
+    let user = await response.json();
+    return user;
 }
 
 async function checkIfUserExists() {

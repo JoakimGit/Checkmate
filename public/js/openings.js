@@ -1,10 +1,10 @@
+const game = new Chess();
 let board;
-let game = new Chess();
 
 function startOpening(openingName) {
     $(".opening-col").hide();
     initBoard();
-    const opening = openings[openingName]
+    const opening = openings[openingName];
     moveThroughOpening(opening);
 }
 
@@ -16,7 +16,7 @@ function initBoard() {
 function moveThroughOpening(opening) {
     for (let i = 1; i < opening.length+1; i++) {
         setTimeout(() => {
-            game.move(opening[i-1])    
+            game.move(opening[i-1]);
             board.position(game.fen());
         }, i * 1000);
     }

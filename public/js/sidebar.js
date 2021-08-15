@@ -1,10 +1,12 @@
+let username;
+
 function getLoggedInUser() {
     fetch("/login/logged-in-user")
     .then(response => response.json())
     .then(data => {
-         player = data.username
-         $("#username").text(player);
-    });         
+        username = data.username;
+        $("#username").text(username);
+    });
 };
 
 jQuery(function() {
@@ -12,6 +14,6 @@ jQuery(function() {
 
     $("#games").on("click", function(event) {
         event.preventDefault();
-        window.location.href = `/games/overview/${player}`;
+        window.location.href = `/games/overview/${username}`;
     });
 });

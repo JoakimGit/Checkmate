@@ -5,8 +5,11 @@ let black;
 const socket = io.connect("/play-online");
 
 socket.on("move", (move) => {
+    removeHighlight();
+    highlightPrevMove(move.from, move.to);
     game.move(move);
     board.position(game.fen());
+    checkGameOver();
 });
 
 socket.on("new-player", (playerPool) => {
@@ -14,12 +17,14 @@ socket.on("new-player", (playerPool) => {
         playerPool.map(player => createNewPlayer(player));
     } else {
         createNewPlayer(playerPool[playerPool.length -1]);
-    } 
+    }
     hasPlayerPool = true;
 });
 
-socket.on("player-left", (username) => {
-    document.getElementById(username).remove();
+socket.on("player-left", (usernames) => {
+    usernames.forEach(name => {        
+        document.getElementById(name).remove();
+    });
 });
 
 socket.on("begin-game", (players) => {
@@ -29,6 +34,17 @@ socket.on("begin-game", (players) => {
     console.log("Black is:", black);
     $("#playerPool").hide();
     board = Chessboard('chessBoard', config);
+    setOrientation();
+});
+
+socket.on("alert-gameover", (gameResult) => {
+    let alertText;
+    if (gameResult.winner !== "Neither") {
+        alertText = `Game is over! ${gameResult.winner} won by ${gameResult.result}.`
+    } else {
+        alertText = `Game is over! Neither player won due to ${gameResult.result}.`
+    }
+    alert(alertText);
 });
 
 function checkGameOver() {
@@ -37,13 +53,14 @@ function checkGameOver() {
             white: white,
             black: black,
             result: "",
+            winner: "Neither",
             history: game.history(),
             fen: game.fen(),
             date: new Date()
         }
         if (game.in_checkmate()) {
             gameResult.result = "Checkmate";
-            gameResult.winner = game.turn() === 'w' ? "White" : "Black"
+            gameResult.winner = game.turn() === 'w' ? "Black" : "White"
         }
         else if (game.in_stalemate()) {
             gameResult.result = "Draw by stalemate";
@@ -73,4 +90,10 @@ function createNewPlayer(player) {
 
     playerDiv.appendChild(playerBtn);
     playerPoolDiv.appendChild(playerDiv);
+}
+
+function setOrientation() {
+    if (player === black) {
+        board.orientation('black');
+    }
 }

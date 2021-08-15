@@ -1,11 +1,10 @@
 const io = require("../app");
 const sound = require("sound-play");
-const gameDAO = require("../db/gameDAO");
+const gameDB = require("../db/game");
 const session = require("../middleware/session");
 
 let playerPool = [];
 let playerRooms = [];
-
 
 module.exports = io.of('/play-online').on('connection', async (socket) => {
     session(socket.handshake, {}, (err) => {        
@@ -17,17 +16,20 @@ module.exports = io.of('/play-online').on('connection', async (socket) => {
             playerPool.push({ socket: socket, username: username });
             const usernames = playerPool.map((user) => { return user.username });
             io.of('/play-online').emit("new-player", usernames);            
-        }        
-    }); 
+        }
+    });
     
     socket.on('move', (move) => {
         const room = playerRooms.find(roomObj => roomObj.roomName.includes(socket.id));
-        sound.play(__dirname + "/public/sfx/wav/Move.wav");
+        sound.play(__dirname + "/.." + "/public/sfx/wav/Move.wav");
         io.of("/play-online").to(room.roomName).emit("move", move);
     });
 
-    socket.on("startgame", (targetUser) => {
-        const targetPlayer = playerPool.find((player) => player.username === targetUser);
+    socket.on("startgame", (targetUsername) => {
+        srcUsername = socket.handshake.session.username;
+        if (srcUsername === targetUsername) return;
+
+        const targetPlayer = playerPool.find((player) => player.username === targetUsername);
         const targetSocket = targetPlayer.socket;
         const roomName = socket.id + targetSocket.id;
 
@@ -36,22 +38,24 @@ module.exports = io.of('/play-online').on('connection', async (socket) => {
 
         playerRooms.push({
             roomName: roomName,
-            player1: socket.handshake.session.username,
-            player2: targetPlayer.username 
+            player1: srcUsername,
+            player2: targetUsername 
         });
 
-        const oneOrZero = Math.round(Math.random());
+        playerPool = playerPool.filter((player) => ![socket, targetSocket].includes(player.socket));
 
-        const white = oneOrZero === 0 ? socket.handshake.session.username : targetPlayer.username;
-        const black = oneOrZero === 1 ? socket.handshake.session.username : targetPlayer.username;
+        const oneOrZero = Math.round(Math.random());
+        const white = oneOrZero === 0 ? srcUsername : targetUsername;
+        const black = oneOrZero === 1 ? srcUsername : targetUsername;
 
         io.of("/play-online").to(roomName).emit("begin-game", { white, black });
+        io.of('/play-online').emit("player-left", [srcUsername, targetUsername]);
     });
 
     socket.on("game-over", (gameResult) => {
-        const room = playerRooms.find(roomObj => roomObj.roomName.includes(socket.id));
-        const game = {...gameResult, player1: room.player1, player2: room.player2};
-        gameDAO.saveGame(game);
+        const room = playerRooms.find(roomObj => roomObj.roomName.includes(socket.id))
+        gameDB.saveGame(gameResult);        
+        io.of("/play-online").to(room.roomName).emit("alert-gameover", gameResult);
     });
 
     socket.on("disconnect", () => {        
@@ -59,7 +63,7 @@ module.exports = io.of('/play-online').on('connection', async (socket) => {
         playerPool = playerPool.filter((player) => { return player.socket !== socket });
         playerRooms = playerRooms.filter((roomObj) => { return !roomObj.roomName.includes(socket.id) });
         if (leavingPlayer) {
-            io.of('/play-online').emit("player-left", leavingPlayer.username);
-        }        
+            io.of('/play-online').emit("player-left", [leavingPlayer.username]);
+        }
     });
 });

@@ -28,8 +28,8 @@ function createGamesTable(games) {
         const month = date.getMonth()+1;
         const year = date.getFullYear();
 
-        player1TD.innerText = game.player1;
-        player2TD.innerText = game.player2;
+        player1TD.innerText = game.white;
+        player2TD.innerText = game.black;
         resultTD.innerText = game.result;
         winnerTD.innerText = game.winner;
         dateTD.innerText = `${day}/${month}-${year}`

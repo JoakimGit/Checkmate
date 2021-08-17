@@ -21,6 +21,8 @@ module.exports = io.of('/play-online').on('connection', async (socket) => {
     
     socket.on('move', (move) => {
         const room = playerRooms.find(roomObj => roomObj.roomName.includes(socket.id));
+        console.log("Playing sound from:");
+        console.log(__dirname + "/.." + "/public/sfx/wav/Move.wav");
         sound.play(__dirname + "/.." + "/public/sfx/wav/Move.wav");
         io.of("/play-online").to(room.roomName).emit("move", move);
     });

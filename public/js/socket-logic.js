@@ -29,8 +29,6 @@ socket.on("player-left", (usernames) => {
 socket.on("begin-game", (players) => {
     white = players.white;
     black = players.black;
-    console.log("White is:", white);
-    console.log("Black is:", black);
     $("#playerPool").hide();
     board = Chessboard('chessBoard', config);
     setOrientation();

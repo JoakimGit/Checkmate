@@ -21,12 +21,7 @@ module.exports = io.of('/play-online').on('connection', async (socket) => {
     
     socket.on('move', (move) => {
         const room = playerRooms.find(roomObj => roomObj.roomName.includes(socket.id));
-        console.log("Playing sound from:");
-        console.log(__dirname);
-        console.log("/public/sfx/wav/Move.wav");
-
-        console.log(__dirname + "/.." + "/public/sfx/wav/Move.wav");
-        sound.play("/public/sfx/wav/Move.wav");
+        sound.play(__dirname + "/.." + "/public/sfx/wav/Move.wav");
         io.of("/play-online").to(room.roomName).emit("move", move);
     });
 
@@ -77,7 +72,6 @@ module.exports = io.of('/play-online').on('connection', async (socket) => {
 
         const leavingPlayerRoom = playerRooms.find((roomObj) => roomObj.roomName.includes(socket.id));
         if (leavingPlayerRoom) {            
-            console.log("Room exists and game is not over. Other player wins by default.");
             io.of("/play-online").to(leavingPlayerRoom.roomName).emit("default-win");
         }
     });

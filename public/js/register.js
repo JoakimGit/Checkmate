@@ -4,7 +4,6 @@ jQuery(function() {
         const noPassError = comparePasswords();
         const noUsernameError = checkIfUserExists();
         if (noRequiredError && noPassError && noUsernameError) {
-            console.log("Submitting form");
             $("#register-form").trigger("submit");
         }
     });

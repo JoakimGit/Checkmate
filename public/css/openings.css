@@ -4,6 +4,12 @@
     background-color: var(--main-bg-color);
 }
 
+.opening-name {
+    font-size: 24px;
+    font-weight: bold;
+    align-self: center;
+}
+
 .opening-col img {
     height: 175px;
     width: 175px;

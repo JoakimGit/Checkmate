@@ -13,7 +13,6 @@ function getAllUsers() {
 function createUser(newUser) {
     try {
         const createdUser = db.collection("users").insertOne(newUser);
-        console.log("New user created with id:", createdUser.insertedId); 
         return createdUser;
     } catch (error) {
         console.error(error);

@@ -14,7 +14,7 @@ router.get("/games/:id", (req, res) => {
 router.get("/games/all/:username", async (req, res) => {
     const games = await gameDB.getGamesByUsername(req.params.username);
     if (games) {
-        res.send(games);
+        res.send({ games });
     } else {
         res.send({ });
     }

@@ -15,17 +15,17 @@ router.post("/login", async (req, res) => {
             const match = await bcrypt.compare(password, user.password);
             if (match) {
                 req.session.username = user.username;
-                return res.redirect("/");            
+                return res.redirect("/");
             } else {
-                return res.redirect("/login");            
+                return res.redirect("/login");
             }
         } else {
             return res.redirect("/login");
         }
-        
+
     } catch (error) {
         console.log(error);
-    }    
+    }
 });
 
 router.get("/login/logged-in-user", (req, res) => {    

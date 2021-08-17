@@ -56,29 +56,24 @@ module.exports = io.of('/play-online').on('connection', async (socket) => {
     });
 
     socket.on("game-over", (gameResult) => {
-        const room = playerRooms.find(roomObj => roomObj.roomName.includes(socket.id)).gameOver = true;
+        sound.play(__dirname + "/.." + "/public/sfx/wav/Mate.wav");
+        const room = playerRooms.find(roomObj => roomObj.roomName.includes(socket.id));
         gameDB.saveGame(gameResult);
-        console.log("Player rooms:", playerRooms);
-        /* playerRooms = playerRooms.filter((roomObj) => !roomObj.roomName.includes(socket.id)); */
+        playerRooms = playerRooms.filter((roomObj) => !roomObj.roomName.includes(socket.id));
         io.of("/play-online").to(room.roomName).emit("alert-gameover", gameResult);
     });
 
     socket.on("disconnect", () => {
-        console.log("Player leaving");
         const leavingPlayer = playerPool.find((player) => player.socket === socket);
-        playerPool = playerPool.filter((player) => player.socket !== socket);
-
-        const leavingPlayerRoom = playerRooms.find((roomObj) => roomObj.roomName.includes(socket.id));
-        if (leavingPlayerRoom) {
-            if (!leavingPlayerRoom.gameOver) {
-                console.log("Room exists and game is not over. Other player wins by default.");
-                io.of("/play-online").to(leavingPlayerRoom.roomName).emit("default-win");
-            }
-        }
-        playerRooms = playerRooms.filter((roomObj) => !roomObj.roomName.includes(socket.id));
         if (leavingPlayer) {
+            playerPool = playerPool.filter((player) => player.socket !== socket);
             io.of('/play-online').emit("player-left", [leavingPlayer.username]);
         }
-        
+
+        const leavingPlayerRoom = playerRooms.find((roomObj) => roomObj.roomName.includes(socket.id));
+        if (leavingPlayerRoom) {            
+            console.log("Room exists and game is not over. Other player wins by default.");
+            io.of("/play-online").to(leavingPlayerRoom.roomName).emit("default-win");
+        }
     });
 });

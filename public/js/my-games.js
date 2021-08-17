@@ -8,7 +8,7 @@ jQuery(async function() {
 async function getGamesByName(username) {
     let response = await fetch(`/games/all/${username}`);
     let games = await response.json();
-    return games;
+    return games.games;
 }
 
 function createGamesTable(games) {

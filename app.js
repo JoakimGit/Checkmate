@@ -12,11 +12,9 @@ app.use(express.static('public'));
 app.use(express.static('views'));
 app.use("/gameboard", express.static(__dirname + "/node_modules/@chrisoakman/chessboardjs/dist"));
 app.use("/gamelogic", express.static(__dirname + "/node_modules/chess.js"));
-/* app.set("trust proxy", 1); */
 
 mongodb.connectToServer(function(err) {
     if (err) console.log(err);
-    console.log("Connected to db");
 
     const userdb = require("./db/user");
     const gamedb = require("./db/game");
@@ -35,24 +33,25 @@ mongodb.connectToServer(function(err) {
     const socketIO = require("./socket/socketIO");
     
     app.use(session);
+    app.use(registerRouter.router);
+    app.use(loginRouter.router);
+    app.use(authenticate);
     app.use(indexRouter.router);
     app.use(cookiePolicyRouter.router);
-    app.use(loginRouter.router);
-    app.use(registerRouter.router);
     app.use(userRouter.router);
     app.use(rulesRouter.router);
     app.use(contactRouter.router);
     app.use(openingsRouter.router);
     app.use(playRouter.router);
-    app.use(authenticate);
     app.use(myGamesRouter.router);
     app.use(pageNotFoundRouter.router);
 
+    const PORT = process.env.PORT || 8080;
 
-    server.listen(8080, (err) => {
+    server.listen(PORT, (err) => {
         if (err) {
             console.log(err);
         }
-        console.log("Listening to server at port", 8080);
+        console.log("Listening to server at port", PORT);
     });
 });

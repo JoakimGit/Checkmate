@@ -25,11 +25,25 @@ const openings = {
     sicillian : ['e4', 'c5']
 }
 
+const openingNames = {
+    stafford: "Stafford Gambit",
+    queenGambit: "The Queen's Gambit",
+    scandi: "The Scandinavian Defence",
+    caro: "Caro-Kann Defence",
+    kingsIndian: "King's Indian Defence",
+    scotch: "Scotch game",
+    italian: "Italian game",
+    spanish: "Ruy Lòpez",
+    sicillian: "Sicillian Defence"
+}
+
 // Opening related functions
 
 function startOpening(openingName) {
     $(".opening-col").hide();
     initBoard();
+    const openingFullName = openingNames[openingName];
+    $("#opening").text(openingFullName);
     openingMoves = openings[openingName];
     moveThroughOpening(openingMoves);
 }
@@ -46,7 +60,7 @@ function moveThroughOpening(opening) {
             game.move(opening[i-1]);
             board.position(game.fen());
             currentMove++;
-        }, i * 1000);
+        }, i * 800);
     }
     return false;
 }

@@ -13,7 +13,7 @@ socket.on("move", (move) => {
 
 socket.on("new-player", (playerPool) => {
     if (!hasPlayerPool) {
-        playerPool.map(player => createNewPlayer(player));
+        playerPool.forEach(player => createNewPlayer(player));
     } else {
         createNewPlayer(playerPool[playerPool.length -1]);
     }
@@ -21,7 +21,7 @@ socket.on("new-player", (playerPool) => {
 });
 
 socket.on("player-left", (usernames) => {
-    usernames.forEach(name => {        
+    usernames.forEach(name => {
         document.getElementById(name).remove();
     });
 });
@@ -37,12 +37,11 @@ socket.on("begin-game", (players) => {
 });
 
 socket.on("alert-gameover", (gameResult) => {
-    console.log("Alert gameover called");
     let alertText;
     if (gameResult.winner !== "Neither") {
-        alertText = `Game is over! ${gameResult.winner} won by ${gameResult.result}.`
+        alertText = `Game is over! ${gameResult.winner} won by: ${gameResult.result}.`
     } else {
-        alertText = `Game is over! Neither player won due to ${gameResult.result}.`
+        alertText = `Game is over! Neither player won due to: ${gameResult.result}.`
     }
     setTimeout(() => {
         alert(alertText);        
@@ -50,17 +49,14 @@ socket.on("alert-gameover", (gameResult) => {
 });
 
 socket.on("default-win", () => {
-    console.log("Player winning by default:", player);
     const gameResult = {
         white: white,
         black: black,
-        result: "Win by forfeit",
-        winner: player === white ? white : black,
+        result: "Forfeit",
+        winner: player === white ? 'White' : 'Black',
         history: game.history(),
-        fen: game.fen(),
         date: new Date()
     }
-    console.log(gameResult);
     socket.emit("game-over", gameResult);
 });
 
@@ -72,7 +68,6 @@ function checkGameOver() {
             result: "",
             winner: "Neither",
             history: game.history(),
-            fen: game.fen(),
             date: new Date()
         }
         if (game.in_checkmate()) {

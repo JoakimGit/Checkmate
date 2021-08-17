@@ -20,4 +20,8 @@
 
 .game-details p {
     color: white;
+    border: 1px solid white;
+    line-height: 2em;
+    margin: 0.5em 0.25em;
+    padding: 0.25em;   
 }

@@ -15,3 +15,4 @@ jQuery(function() {
         window.location.href = `/games/overview/${player}`;
     });
 });
+

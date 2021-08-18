@@ -70,7 +70,7 @@ jQuery(function() {
     $("#flip").on("click", async function() {
       board.flip();
       console.log("Orientation:", board.orientation());
-      if (isComputerGame && board.orientation() === 'black') {
+      if (isComputerGame && board.orientation() === "black") {
         makeRandomMove();
       }
     });
@@ -102,7 +102,7 @@ function removeMarkedSquares() {
 
 function showLegalMoves(moves) {
   for (let i = 0; i < moves.length; i++) {
-    const square = $('#chessBoard .square-' + moves[i].to);
+    const square = $("#chessBoard .square-" + moves[i].to);
     if (square.hasClass("black-3c85d")) {
       square.css("background-color", "#8888f4");
     }
@@ -117,12 +117,12 @@ function hideLegalMoves() {
 }
 
 function highlightPrevMove(source, target) {
-  $('#chessBoard .square-' + source).addClass("highlight-white");
-  $('#chessBoard .square-' + target).addClass("highlight-white");  
+  $("#chessBoard .square-" + source).addClass("highlight-white");
+  $("#chessBoard .square-" + target).addClass("highlight-white");  
 }
 
 function removeHighlight() {
-  $('#chessBoard .square-55d63').removeClass("highlight-white highlight-black");
+  $('#chessBoard .square-55d63').removeClass("highlight-white");
 }
 
 // Computer moves

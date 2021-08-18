@@ -17,7 +17,11 @@ module.exports = io.of('/play-online').on('connection', async (socket) => {
             const usernames = playerPool.map((user) => { return user.username });
             io.of('/play-online').emit("new-player", usernames);            
         }
+        setInterval(() => {
+            socket.emit("log-date", {date: new Date()});
+        }, 1000)
     });
+
     
     socket.on('move', (move) => {
         const room = playerRooms.find(roomObj => roomObj.roomName.includes(socket.id));

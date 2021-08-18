@@ -130,7 +130,7 @@ function makeRandomMove () {
     const possibleMoves = game.moves();
     if (possibleMoves.length === 0) return;
   
-    const randomIdx = Math.floor(Math.random() * possibleMoves.length);
-    game.move(possibleMoves[randomIdx]);
+    const index = Math.floor(Math.random() * possibleMoves.length);
+    game.move(possibleMoves[index]);
     board.position(game.fen());
 }

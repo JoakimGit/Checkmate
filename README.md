@@ -8,7 +8,7 @@
 - View popular openings
 - Page for chess rules, policies and contact (contact is broken)
 
-### Screenshot
+### Screenshots
 
 ![theme-dark](./images/practice.JPG)
 ![theme-light](./images/my-games.JPG)

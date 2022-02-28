@@ -116,6 +116,7 @@ function hideLegalMoves() {
 
 function highlightPrevMove(source, target) {
   $("#chessBoard .square-" + source).addClass("highlight-white");
+<<<<<<< HEAD
   $("#chessBoard .square-" + target).addClass("highlight-white");
 }
 
@@ -132,3 +133,21 @@ function makeRandomMove() {
   game.move(possibleMoves[randomIdx]);
   board.position(game.fen());
 }
+=======
+  $("#chessBoard .square-" + target).addClass("highlight-white");  
+}
+
+function removeHighlight() {
+  $('#chessBoard .square-55d63').removeClass("highlight-white");
+}
+
+// Computer moves
+function makeRandomMove () {
+    const possibleMoves = game.moves();
+    if (possibleMoves.length === 0) return;
+  
+    const index = Math.floor(Math.random() * possibleMoves.length);
+    game.move(possibleMoves[index]);
+    board.position(game.fen());
+}
+>>>>>>> e44727c74aa2a18bd98a07b9900e67ee6da881b0

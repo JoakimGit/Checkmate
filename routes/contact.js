@@ -9,7 +9,7 @@ router.get('/contact', (req, res) => {
 router.post("/contact", (req, res) => {
     const sender = req.body;
 
-    let transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
         service: 'gmail',        
         auth: {
             user: process.env.EMAIL_NAME,
@@ -17,7 +17,7 @@ router.post("/contact", (req, res) => {
         }
     });
 
-    let mailOptions = {
+    const mailOptions = {
         from: sender.name + ' ' + sender.email,
         to: process.env.EMAIL_NAME,
         subject: sender.subject,
@@ -25,12 +25,13 @@ router.post("/contact", (req, res) => {
     };
 
     transporter.sendMail(mailOptions, err => {
+    
         if (err) {
             console.log('Error occured: ' + err);
+        } else {
+            res.redirect("/contact"); 
         }
-    });
-    
-    return res.redirect("/contact");    
+    });  
 });
 
 module.exports = {router};
